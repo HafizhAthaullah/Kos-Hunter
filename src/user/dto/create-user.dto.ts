@@ -6,33 +6,30 @@ import {
   IsOptional,
   IsPhoneNumber,
   IsString,
+
 } from 'class-validator';
-import { PublicRole } from 'src/common/enums/public-role.enums';
-import { normalizePublicRole } from 'src/common/utils/role.utils';
+import { $Enums } from 'generated/prisma/browser';
 
 export class CreateUserDto {
-  @IsString({ message: 'The name property must be filled with a string.' })
-  @IsNotEmpty({ message: 'The name property cannot be empty' })
+  @IsString()
+  @IsNotEmpty()
   name!: string;
 
-  @IsString({ message: 'The E - Mail property must be filled with a string.' })
+  @IsString()
   @IsEmail()
-  @IsNotEmpty({ message: 'The E-mail property cannot be empty' })
+  @IsNotEmpty()
   email!: string;
 
-  @IsString({ message: 'The Password property must be filled with a string.' })
-  @IsNotEmpty({ message: 'The password property cannot be empty' })
+  @IsString()
+  @IsNotEmpty()
   password!: string;
 
-  @IsString({ message: 'The Phone property must be filled with a string.' })
+  @IsString()
   @IsPhoneNumber()
   @IsOptional()
   phone?: string;
 
-  @Transform(({ value }) => normalizePublicRole(value))
-  @IsEnum(PublicRole, {
-    message: 'The role property must be filled with the options provided.',
-  })
+  @IsEnum($Enums)
   @IsOptional()
-  role!: PublicRole;
+  role!: $Enums.Role;
 }

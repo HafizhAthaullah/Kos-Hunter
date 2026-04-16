@@ -2,10 +2,11 @@ import { Injectable } from '@nestjs/common';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { PrismaService } from 'src/prisma/prisma.service';
+import { BcryptService } from 'src/bcrypt/bcrypt.service';
 
 @Injectable()
 export class UserService {
-  constructor(private readonly prisma: PrismaService) { }
+  constructor(private readonly prisma: PrismaService, private readonly bcrypt: BcryptService) { }
   
   async findAll() {
     try {
@@ -23,9 +24,7 @@ export class UserService {
   }
  
   async create(createUserDto: CreateUserDto) {
-    const comparePasswords = await this.bcrypt.hasPassword({
-      
-    });
+    const hashedPassword = await this.bcrypt.hashPassword(createUserDto.password);
   }
 
   findOne(id: number) {
